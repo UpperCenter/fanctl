@@ -16,6 +16,26 @@
 
 ## Installation
 
+0. Install required dependencies for your distribution:
+
+   ### Debian/Ubuntu:
+
+   ```bash
+   sudo apt install ipmitool bc
+   ```
+
+   ### CentOS/RHEL:
+
+   ```bash
+   sudo yum install ipmitool bc
+   ```
+
+   ### Arch Linux:
+
+   ```bash
+   sudo pacman --needed -S ipmitool bc
+   ```
+
 1. Clone the repository:
 
 ```bash
