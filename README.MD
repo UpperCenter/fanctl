@@ -43,7 +43,7 @@ chmod +x fan_control.sh
    - `IPMI_USER`: iDRAC username **(Required)**
    - `IPMI_PASS`: iDRAC password **(Required)**
    - `TEMP_THRESHOLD_*`: Temperature thresholds for fan speed adjustments **(Optional)**
-   - `CHECK_INTERVAL`: Time between temperature checks (in seconds) **(Option but Reccomended)**
+   - `CHECK_INTERVAL`: Time between temperature checks (in seconds) **(Optional but Reccomended)**
    - `LOG_FILE`: Path to the log file **(Optional)**
    - `TEMP_MAX`: Maximum safe temperature threshold **(Optional)**
 
