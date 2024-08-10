@@ -1,6 +1,6 @@
 # Fanctl - A Simple Shell Script For Dell Server Fan Control
 
-Fanctl is a shell script created for homelabbers and enthusiasts to enable more granular, automatic control over Dell PowerEdge server fan speeds.
+**Fanctl** is a shell script designed for homelabbers and enthusiasts to provide more granular, automatic control over Dell PowerEdge server fan speeds. By leveraging IPMI integration with Dell iDRAC, Fanctl adjusts fan speeds based on CPU temperature thresholds, ensuring optimal cooling and noise reduction.
 
 ## Features
 
