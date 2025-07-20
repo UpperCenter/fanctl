@@ -1,0 +1,13 @@
+[Unit]
+Description=fanctl : idrac fan control service
+Requires=network.target
+After=systemd-user-sessions.service
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/fanctl.sh
+ExecStop=/bin/bash -c 'kill -9 $(ps aux | grep fanctl.sh | grep -v grep | awk '{print $2}')'
+User=root
+
+[Install]
+WantedBy=multi-user.target
