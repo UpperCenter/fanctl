@@ -51,7 +51,7 @@ check_dependencies() {
 
 # Get CPU Temps and Parse Out Inlet & Exhaust
 get_cpu_temperatures() {
-    temps=$(ipmitool -I lanplus -H $IPMI_HOST -U $IPMI_USER -P $IPMI_PASS sdr type temperature | grep -E '^\s*Temp\s+\|' | awk -F'|' '{print $5}' | awk '{print $1}')
+    temps=$(ipmitool -I lanplus -H $IPMI_HOST -U $IPMI_USER -P $IPMI_PASS sdr type temperature | grep -E '^\s*Temp\s+\|' | awk -F'|' '{print $5}' | grep -v Disabled | awk '{print $1}')
     if [ $? -ne 0 ]; then
         log "ERROR" "Failed to retrieve temperatures from IPMI. Error: $temps"
         echo ""
