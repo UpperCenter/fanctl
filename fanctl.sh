@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # IPMI iDrac Settings
-IPMI_HOST="idrac.lab.local" # Your iDrac IP Address or FQDN
-IPMI_USER="root"            # iDrac Username
-IPMI_PASS="calvin"          # iDrac Password
+IPMI_SECRET_FILE=~/.connexions/idrac # 3 lines, IP\nlogin\npassword
+IPMI_HOST=$(sed -n '1p' $IPMI_SECRET_FILE) # Your iDrac IP Address or FQDN (first line)
+IPMI_USER=$(sed -n '2p' $IPMI_SECRET_FILE) # iDrac Username (second line)
+IPMI_PASS=$(sed -n '3p' $IPMI_SECRET_FILE) # iDrac Password (third line)
 
 # Fan Speed Thresholds
 TEMP_THRESHOLD_1=50
@@ -19,7 +20,7 @@ TEMP_THRESHOLD_8=90
 CHECK_INTERVAL=60
 
 # Log Path
-LOG_FILE="/var/log/fanctrl.log"
+LOG_FILE="/var/log/fanctl.log"
 
 # Danger Zone Temperature Threshold (in Celsius)
 TEMP_MAX=90
@@ -50,7 +51,7 @@ check_dependencies() {
 
 # Get CPU Temps and Parse Out Inlet & Exhaust
 get_cpu_temperatures() {
-    temps=$(ipmitool -I lanplus -H $IPMI_HOST -U $IPMI_USER -P $IPMI_PASS sdr type temperature | grep -E '^\s*Temp\s+\|' | awk -F'|' '{print $5}' | awk '{print $1}')
+    temps=$(ipmitool -I lanplus -H $IPMI_HOST -U $IPMI_USER -P $IPMI_PASS sdr type temperature | grep -E '^\s*Temp\s+\|' | awk -F'|' '{print $5}' | grep -v Disabled | awk '{print $1}')
     if [ $? -ne 0 ]; then
         log "ERROR" "Failed to retrieve temperatures from IPMI. Error: $temps"
         echo ""
@@ -65,7 +66,7 @@ get_avg_cpu_temperature() {
     if [ -z "$temps" ]; then
         echo ""
     else
-        echo "$temps" | awk '{sum+=$1} END {if (NR>0) print sum/NR; else print ""}' | awk '{printf "%.1f", $0}'
+        echo "$temps" | awk '{sum+=$1} END {if (NR>0) print sum/NR; else print ""}' | LC_ALL=C awk '{printf "%.1f", $0}'
     fi
 }
 

@@ -46,7 +46,7 @@ cd fanctl
 2. Make the script executable:
 
 ```bash
-chmod +x fan_control.sh
+chmod +x fanctl.sh
 ```
 
 3. Configure iDRAC settings:
@@ -58,6 +58,7 @@ chmod +x fan_control.sh
      - Click Apply
 
 4. Adjust script variables:
+
    Open the script in a text editor and modify the following variables as needed:
    - `IPMI_HOST`: Your iDRAC IP address or FQDN **(Required)**
    - `IPMI_USER`: iDRAC username **(Required)**
@@ -67,15 +68,49 @@ chmod +x fan_control.sh
    - `LOG_FILE`: Path to the log file **(Optional)**
    - `TEMP_MAX`: Maximum safe temperature threshold **(Optional)**
 
+
+5. For your **Credentials** use a secret file:
+
+The secret file:
+- create a idrac file in /root/.connexions/idrac
+- fill it with three lines : ip, login an password.
+- protect-it 
+	
+```bash 
+touch /root/.connexions/idrac
+sudo chmod 600 /root/.connexions/idrac
+```
+
 ## Usage
 
 Run the script with:
 
 ```bash
-./fan_control.sh
+./fanctl.sh
 ```
 
 For long-term use, consider setting up the script as a systemd service or running it in a screen/tmux session.
+
+### Installation with systemd
+
+1. Copy script in /usr/sbin
+
+```bash
+sudo cp fanctl.sh /usr/sbin/
+```
+
+2. Copy .service file in /etc/systemd/system
+
+```bash
+sudo cp fanctl.service /etc/systemd/system
+```
+
+3. Activate and start the service
+
+```bash
+sudo systemctl enable fanctl
+sudo systemctl start fanctl
+```
 
 ## Important Notes
 
